@@ -251,22 +251,31 @@
                     </div>
                 </div>
 
-                <form class="contact-form glass-card slide-in-right">
+                <!-- Modified form to submit to the provided Google Form -->
+                <script type="text/javascript">var submitted = false;</script>
+                <form class="contact-form glass-card slide-in-right"
+                    action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSdaGqTaSn28JOVPS394V7ejEMZ2Ew1jeUFs6zau14x2FJAPCg/formResponse"
+                    method="POST" target="hidden_iframe" onsubmit="submitted=true;">
                     <div class="form-group">
-                        <input type="text" id="name" required placeholder="Your Name">
+                        <input type="text" id="name" name="entry.778938443" required placeholder="Your Name">
                     </div>
                     <div class="form-group">
-                        <input type="email" id="email" required placeholder="Your Email">
+                        <input type="email" id="email" name="entry.1298364875" required placeholder="Your Email">
                     </div>
                     <div class="form-group">
-                        <input type="text" id="subject" required placeholder="Subject">
+                        <input type="text" id="subject" name="entry.1737550289" required placeholder="Subject">
                     </div>
                     <div class="form-group">
-                        <textarea id="message" rows="5" required placeholder="Your Message"></textarea>
+                        <textarea id="message" name="entry.10073600" rows="5" required
+                            placeholder="Your Message"></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary submit-btn">Send Message <i
                             class="fas fa-paper-plane"></i></button>
                 </form>
+
+                <!-- Hidden iframe to prevent page redirection after Google Form submission -->
+                <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"
+                    onload="if(submitted) { window.location=''; }"></iframe>
             </div>
         </div>
     </section>

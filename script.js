@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
         rootMargin: "0px 0px -50px 0px"
     };
 
-    const appearOnScroll = new IntersectionObserver(function(entries, observer) {
+    const appearOnScroll = new IntersectionObserver(function (entries, observer) {
         entries.forEach(entry => {
             if (!entry.isIntersecting) {
                 return;
@@ -81,28 +81,35 @@ document.addEventListener('DOMContentLoaded', () => {
         appearOnScroll.observe(fader);
     });
 
-    // --- Form Submission Prevention (Demo only) ---
+    // --- Form Submission Handling (Google Forms via iframe) ---
     const contactForm = document.querySelector('.contact-form');
-    if(contactForm) {
-        contactForm.addEventListener('submit', (e) => {
-            e.preventDefault();
+    if (contactForm) {
+        // We listen to the hidden iframe load event to know when submission is done
+        const iframe = document.getElementById('hidden_iframe');
+        if (iframe) {
+            iframe.addEventListener('load', function () {
+                if (submitted) {
+                    const btn = contactForm.querySelector('button');
+                    const originalText = btn.innerHTML;
+
+                    btn.innerHTML = 'Message Sent! <i class="fas fa-check"></i>';
+                    btn.style.background = '#10b981'; // Success green
+                    btn.style.opacity = '1';
+                    contactForm.reset();
+                    submitted = false; // Reset the flag
+
+                    setTimeout(() => {
+                        btn.innerHTML = originalText;
+                        btn.style.background = '';
+                    }, 3000);
+                }
+            });
+        }
+
+        contactForm.addEventListener('submit', () => {
             const btn = contactForm.querySelector('button');
-            const originalText = btn.innerHTML;
             btn.innerHTML = 'Sending... <i class="fas fa-spinner fa-spin"></i>';
             btn.style.opacity = '0.7';
-            
-            // Simulate network request
-            setTimeout(() => {
-                btn.innerHTML = 'Message Sent! <i class="fas fa-check"></i>';
-                btn.style.background = '#10b981'; // Success green
-                btn.style.opacity = '1';
-                contactForm.reset();
-                
-                setTimeout(() => {
-                    btn.innerHTML = originalText;
-                    btn.style.background = '';
-                }, 3000);
-            }, 1500);
         });
     }
 
